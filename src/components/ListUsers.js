@@ -1,4 +1,18 @@
-import { useState, useEffect } from 'react';
+import React from 'react';
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
+import Header from '../components/Header'
+
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+
 
 export default function ListUsers() {
   const [users, setUsers] = useState([]);
@@ -9,7 +23,7 @@ export default function ListUsers() {
       {
         method: 'GET',
         headers: {
-          'Authorization': 'Bearer $2b$10$Lcdfn07NvPv3ML/BpMfggemfixFoJz.lJ0lDY.MT2Ezmts.SRLSTO'
+          'Authorization': 'Bearer $2b$10$c9kQ3oPKrbpvhXdMW5Oo6OU4B9J.S/t59SbhiwcOycAKwLnaiFgR.'
         }
       }
     )
@@ -19,16 +33,36 @@ export default function ListUsers() {
 
   return (
     <>
-      {/* TODO this should be a table with material UI */}
-      {users && users.map(user => {
-        return (
-          <span key={user.id}>
-            <p>Name: {user.name}</p>
-            <p>Email: {user.email}</p>
-            <p>Phone: {user.phone}</p>
-          </span>
-        )
-      })}
+      <Header />
+      <Box sx={{ mx: 'auto', mt: 10, width: 1000 }}>…
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="right">Nombre</TableCell>
+                <TableCell align="right">Teléfono</TableCell>
+                <TableCell align="right">Mail</TableCell>
+                <TableCell align="right">RUT</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {users.map((user) => (
+                <TableRow
+                  key={user.id}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  href={`/users/${user.id}`}
+                  component={Link}
+                >
+                  <TableCell align="right">{user.name} {user.lastName}</TableCell>
+                  <TableCell align="right">{user.phone}</TableCell>
+                  <TableCell align="right">{user.email}</TableCell>
+                  <TableCell align="right">{user.rut}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
     </>
   );
 }
