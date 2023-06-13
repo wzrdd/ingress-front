@@ -23,7 +23,7 @@ export default function ListUsers() {
       {
         method: 'GET',
         headers: {
-          'Authorization': 'Bearer $2b$10$c9kQ3oPKrbpvhXdMW5Oo6OU4B9J.S/t59SbhiwcOycAKwLnaiFgR.'
+          'Authorization': 'Bearer $2b$10$JwKI.5.tRAwx5UgVqCuwiufDmkbZSUItIDxWe3YwQQk8.tAG3ULUm'
         }
       }
     )

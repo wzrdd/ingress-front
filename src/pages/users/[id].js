@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Swal from 'sweetalert2'
-import Button from '@mui/material/Button';
-
 
 import Header from '../../components/Header'
+
+import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -27,13 +28,15 @@ export default function UserDetails() {
       {
         method: 'GET',
         headers: {
-          'Authorization': 'Bearer $2b$10$c9kQ3oPKrbpvhXdMW5Oo6OU4B9J.S/t59SbhiwcOycAKwLnaiFgR.'
+          'Authorization': 'Bearer $2b$10$JwKI.5.tRAwx5UgVqCuwiufDmkbZSUItIDxWe3YwQQk8.tAG3ULUm'
         }
       }
     )
       .then(response => response.json())
       .then(data => setUser(data.user))
   }, [id]);
+
+  // TODO handle unauthorized
 
   return (
     <>
@@ -103,6 +106,7 @@ export default function UserDetails() {
             sx={{ mt: 2, mb: 2 }}
             color='error'
             variant="contained"
+            startIcon={<DeleteIcon />}
             onClick={() => {
               Swal.fire({
                 title: '¿Confirmas la eliminación de este usuario?',
@@ -115,11 +119,32 @@ export default function UserDetails() {
                 cancelButtonText: 'Cancelarlo.'
               }).then((result) => {
                 if (result.isConfirmed) {
-                  Swal.fire(
-                    'Deleted!',
-                    'Your file has been deleted.',
-                    'success'
+                  fetch(
+                    `http://localhost:3300/api/v1/user/${id}`,
+                    {
+                      method: 'DELETE',
+                      headers: {
+                        'Authorization': 'Bearer $2b$10$JwKI.5.tRAwx5UgVqCuwiufDmkbZSUItIDxWe3YwQQk8.tAG3ULUm'
+                      }
+                    }
                   )
+                    .then(response => response.json())
+                    .then(res => {
+                      if (res.deleted == true) {
+                        Swal.fire(
+                          'Eliminado!',
+                          'Este usuario fue eliminado con éxito.',
+                          'success'
+                        )
+                      } else {
+                        Swal.fire(
+                          'Error',
+                          'El usuario no se pudo eliminar correctamente.',
+                          'error'
+                        )
+                      }
+                    })
+
                 }
               })
             }}>
