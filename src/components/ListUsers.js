@@ -31,18 +31,18 @@ export default function ListUsers() {
       .then(data => setUsers(data))
   }, []);
 
+  console.log(users)
+
   return (
     <>
       <Header />
-      <Box sx={{ mx: 'auto', mt: 10, width: 1000 }}>…
+      <Box sx={{ mx: 'auto', mt: 10, width: 700 }}>…
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell align="right">Nombre</TableCell>
-                <TableCell align="right">Teléfono</TableCell>
-                <TableCell align="right">Mail</TableCell>
-                <TableCell align="right">RUT</TableCell>
+                <TableCell align="left">ID Usuario</TableCell>
+                <TableCell align="left">Nombre</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -53,10 +53,8 @@ export default function ListUsers() {
                   href={`/users/${user.id}`}
                   component={Link}
                 >
-                  <TableCell align="right">{user.name} {user.lastName}</TableCell>
-                  <TableCell align="right">{user.phone}</TableCell>
-                  <TableCell align="right">{user.email}</TableCell>
-                  <TableCell align="right">{user.rut}</TableCell>
+                  <TableCell align="left">{user.id}</TableCell>
+                  <TableCell align="left">{user.name} {user.lastName}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
