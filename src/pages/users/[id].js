@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
+import { Link } from 'next/link'
 import Swal from 'sweetalert2'
 
 import Header from '../../components/Header'
 
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -103,7 +106,7 @@ export default function UserDetails() {
 
         <Box component={Paper} variant={'outlined'}>
           <Button
-            sx={{ mt: 2, mb: 2 }}
+            sx={{ mr: 2, mt: 2, mb: 2 }}
             color='error'
             variant="contained"
             startIcon={<DeleteIcon />}
@@ -135,13 +138,23 @@ export default function UserDetails() {
                           'Eliminado!',
                           'Este usuario fue eliminado con éxito.',
                           'success'
-                        )
+                        ).then(ok => {
+                          if (ok.isConfirmed) {
+                            router.push('/users')
+                          }
+                        })
+
+
                       } else {
                         Swal.fire(
                           'Error',
                           'El usuario no se pudo eliminar correctamente.',
                           'error'
-                        )
+                        ).then(ok => {
+                          if (ok.isConfirmed) {
+                            router.push('/users')
+                          }
+                        })
                       }
                     })
 
@@ -149,6 +162,16 @@ export default function UserDetails() {
               })
             }}>
             Eliminar Usuario
+          </Button>
+
+          <Button
+            sx={{ ml: 2, mt: 2, mb: 2 }}
+            variant="contained"
+            startIcon={<EditIcon />}
+            component={Link}
+            href={`/users/${user.id}/edit`}
+          >
+            Editar
           </Button>
         </Box>
       </Box >

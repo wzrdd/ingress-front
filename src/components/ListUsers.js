@@ -1,7 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import Header from '../components/Header'
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -31,11 +30,8 @@ export default function ListUsers() {
       .then(data => setUsers(data))
   }, []);
 
-  console.log(users)
-
   return (
     <>
-      <Header />
       <Box sx={{ mx: 'auto', mt: 10, width: 700 }}>…
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
