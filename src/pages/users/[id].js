@@ -9,7 +9,6 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
-
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -26,6 +25,8 @@ export default function UserDetails() {
   const [user, setUser] = useState({});
 
   useEffect(() => {
+    if (!router.isReady) return;
+
     fetch(
       `http://localhost:3300/api/v1/user/${id}`,
       {
@@ -37,7 +38,7 @@ export default function UserDetails() {
     )
       .then(response => response.json())
       .then(data => setUser(data.user))
-  }, [id]);
+  }, [router.isReady]);
 
   // TODO handle unauthorized
 

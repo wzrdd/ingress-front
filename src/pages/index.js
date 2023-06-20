@@ -4,6 +4,9 @@ import Header from '../components/Header'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+
 const mdTheme = createTheme();
 
 export default function Home() {
@@ -14,12 +17,21 @@ export default function Home() {
                 <Header />
                 <h1>Home</h1>
 
-                <h2>
-                    <Link href='/users'>Usuarios</Link>
-                </h2>
 
-                <p>You know more about at<Link href="/about"> about us.</Link></p>
+                <Box
+                    sx={{ mt: 10, mx: 'auto', width: 700 }}
+                    component={Paper}
+                    variant={'outlined'}
+                    align='center'
+                >
+                    <h1>Home Page</h1>
+                    <h2>
+                        <Link href='/users'>Usuarios</Link>
+                    </h2>
 
+                    <p>Envíanos un mensaje a <Link href="/about">contacto.</Link></p>
+
+                </Box>
             </ThemeProvider>
         </>
     )

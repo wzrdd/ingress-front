@@ -14,14 +14,16 @@ const navItems = [
 export default function Header() {
   return (
     <Box sx={{ display: 'flex' }}>
-      <AppBar component="nav">
+      <AppBar style={{ background: '#2E3B55' }} component="nav">
         <Toolbar>
           <Typography
             variant="h6"
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
-            Ingress
+            <Button component={Link} href={'/'} key={"UltraUniqueKey"} sx={{ color: '#fff' }}>
+              Ingress
+            </Button>
           </Typography>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {navItems.map((item) => (

@@ -12,6 +12,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 
+import AddIcon from '@mui/icons-material/Add';
+import Button from '@mui/material/Button';
 
 export default function ListUsers() {
   const [users, setUsers] = useState([]);
@@ -32,7 +34,7 @@ export default function ListUsers() {
 
   return (
     <>
-      <Box sx={{ mx: 'auto', mt: 10, width: 700 }}>…
+      <Box sx={{ mx: 'auto', mt: 10, width: 700 }}>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
@@ -56,6 +58,18 @@ export default function ListUsers() {
             </TableBody>
           </Table>
         </TableContainer>
+      </Box>
+
+      <Box sx={{ mx: 'auto', mt: 1, width: 700 }}>
+        <Button
+          sx={{ ml: 2, mt: 2, mb: 2 }}
+          variant="contained"
+          startIcon={<AddIcon />}
+          component={Link}
+          href={`/users/create`}
+        >
+          Crear Usuario
+        </Button>
       </Box>
     </>
   );

@@ -1,31 +1,15 @@
 import React, { useRouter } from 'next/router'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { TextField, Button } from '@mui/material';
 
 import Grid from '@mui/material/Grid';
-import Header from '../../../components/Header'
+import Header from '../../components/Header'
+
 
 export default function UsersPage() {
-  const router = useRouter()
-  const { id } = router.query
-
   const [formData, setFormData] = useState({});
 
-  useEffect(() => {
-    if (!router.isReady) return;
-
-    fetch(
-      `http://localhost:3300/api/v1/user/${id}`,
-      {
-        method: 'GET',
-        headers: {
-          'Authorization': 'Bearer $2b$10$JwKI.5.tRAwx5UgVqCuwiufDmkbZSUItIDxWe3YwQQk8.tAG3ULUm'
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => setFormData(data.user))
-  }, [router.isReady]);
+  const router = useRouter()
 
   const handleChange = (event) => {
     setFormData({
@@ -36,7 +20,7 @@ export default function UsersPage() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const url = `http://localhost:3300/api/v1/user/${id}`;
+    const url = `http://localhost:3300/api/v1/user/create`;
 
     fetch(url, {
       method: 'POST',
@@ -48,7 +32,7 @@ export default function UsersPage() {
     })
       .then((response) => response.json())
       .then(() => {
-        router.push(`/users/${formData.id}`)
+        router.push(`/users`)
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -70,9 +54,7 @@ export default function UsersPage() {
           <Grid item xs={6}>
             <TextField
               name="name"
-              InputLabelProps={{ shrink: true }}
               label="Nombre"
-              value={formData.name}
               onChange={handleChange}
               required
             />
@@ -82,9 +64,18 @@ export default function UsersPage() {
           <Grid item xs={6}>
             <TextField
               name="lastName"
-              InputLabelProps={{ shrink: true }}
               label="Apellido"
-              value={formData.lastName}
+              onChange={handleChange}
+              required
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            <TextField
+              name="password"
+              label="Contraseña"
+              type="password"
+              autoComplete="off"
               onChange={handleChange}
               required
             />
@@ -93,9 +84,7 @@ export default function UsersPage() {
           <Grid item xs={6}>
             <TextField
               name="rut"
-              InputLabelProps={{ shrink: true }}
               label="RUT"
-              value={formData.rut}
               onChange={handleChange}
               required
             />
@@ -104,9 +93,7 @@ export default function UsersPage() {
           <Grid item xs={6}>
             <TextField
               name="email"
-              InputLabelProps={{ shrink: true }}
               label="Correo electrónico"
-              value={formData.email}
               onChange={handleChange}
               required
             />
@@ -117,7 +104,6 @@ export default function UsersPage() {
               name="phone"
               InputLabelProps={{ shrink: true }}
               label="Teléfono"
-              value={formData.phone}
               onChange={handleChange}
               required
             />
