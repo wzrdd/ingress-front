@@ -1,10 +1,13 @@
+// Import from Library
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { Link } from 'next/link'
 import Swal from 'sweetalert2'
 
+// Custom Components
 import Header from '../../components/Header'
 
+// MaterialUI
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -18,29 +21,97 @@ import TableRow from '@mui/material/TableRow';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 
+
 export default function UserDetails() {
   const router = useRouter()
   const { id } = router.query
 
   const [user, setUser] = useState({});
+  const [authorization, setAuthorization] = useState("")
 
-  useEffect(() => {
-    if (!router.isReady) return;
-
-    fetch(
+  const fetchData = async (authorization) => {
+    const response = await fetch(
       `http://localhost:3300/api/v1/user/${id}`,
       {
         method: 'GET',
         headers: {
-          'Authorization': 'Bearer $2b$10$JwKI.5.tRAwx5UgVqCuwiufDmkbZSUItIDxWe3YwQQk8.tAG3ULUm'
+          'Authorization': authorization
         }
       }
     )
-      .then(response => response.json())
-      .then(data => setUser(data.user))
-  }, [router.isReady]);
 
-  // TODO handle unauthorized
+    const parsedResponse = await response.json()
+    setUser(parsedResponse.user)
+  }
+
+  const deleteRequest = async () => {
+    const response = await fetch(
+      `http://localhost:3300/api/v1/user/${id}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Authorization': authorization
+        }
+      }
+    )
+
+    const parsedResponse = await response.json()
+
+    if (parsedResponse.deleted) {
+      const successMessage = await Swal.fire(
+        'Eliminado!',
+        'Este usuario fue eliminado con éxito.',
+        'success'
+      )
+
+      if (successMessage.isConfirmed) {
+        router.push('/users')
+      }
+    } else {
+      const successMessage = await Swal.fire(
+        'Error',
+        'El usuario no se pudo eliminar correctamente.',
+        'error'
+      )
+      if (successMessage.isConfirmed) {
+        router.push('/users')
+      }
+    }
+  }
+
+  const deleteConfirmation = async () => {
+    try {
+      const alert = await Swal.fire({
+        title: '¿Confirmas la eliminación de este usuario?',
+        text: "Esta operación no se puede revertir.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminarlo.',
+        cancelButtonText: 'Cancelarlo.'
+      })
+
+      if (alert.isConfirmed) {
+        deleteRequest()
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  useEffect(() => {
+    try {
+      if (!router.isReady) return;
+      const token = localStorage.getItem("token");
+      const authorization = `Bearer ${token}`
+      setAuthorization(authorization)
+
+      fetchData(authorization)
+    } catch (err) {
+      console.log(err)
+    }
+  }, [router.isReady]);
 
   return (
     <>
@@ -109,59 +180,9 @@ export default function UserDetails() {
           <Button
             sx={{ mr: 2, mt: 2, mb: 2 }}
             color='error'
-            variant="contained"
-            startIcon={<DeleteIcon />}
-            onClick={() => {
-              Swal.fire({
-                title: '¿Confirmas la eliminación de este usuario?',
-                text: "Esta operación no se puede revertir.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, eliminarlo.',
-                cancelButtonText: 'Cancelarlo.'
-              }).then((result) => {
-                if (result.isConfirmed) {
-                  fetch(
-                    `http://localhost:3300/api/v1/user/${id}`,
-                    {
-                      method: 'DELETE',
-                      headers: {
-                        'Authorization': 'Bearer $2b$10$JwKI.5.tRAwx5UgVqCuwiufDmkbZSUItIDxWe3YwQQk8.tAG3ULUm'
-                      }
-                    }
-                  )
-                    .then(response => response.json())
-                    .then(res => {
-                      if (res.deleted == true) {
-                        Swal.fire(
-                          'Eliminado!',
-                          'Este usuario fue eliminado con éxito.',
-                          'success'
-                        ).then(ok => {
-                          if (ok.isConfirmed) {
-                            router.push('/users')
-                          }
-                        })
-
-
-                      } else {
-                        Swal.fire(
-                          'Error',
-                          'El usuario no se pudo eliminar correctamente.',
-                          'error'
-                        ).then(ok => {
-                          if (ok.isConfirmed) {
-                            router.push('/users')
-                          }
-                        })
-                      }
-                    })
-
-                }
-              })
-            }}>
+            variant='contained'
+            onClick={() => deleteConfirmation()}
+            startIcon={<DeleteIcon />}>
             Eliminar Usuario
           </Button>
 

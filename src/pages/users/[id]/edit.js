@@ -10,21 +10,33 @@ export default function UsersPage() {
   const { id } = router.query
 
   const [formData, setFormData] = useState({});
+  const [authorization, setAuthorization] = useState("")
 
-  useEffect(() => {
-    if (!router.isReady) return;
-
-    fetch(
+  const fetchUser = async (authorization) => {
+    const response = await fetch(
       `http://localhost:3300/api/v1/user/${id}`,
       {
         method: 'GET',
         headers: {
-          'Authorization': 'Bearer $2b$10$JwKI.5.tRAwx5UgVqCuwiufDmkbZSUItIDxWe3YwQQk8.tAG3ULUm'
+          'Authorization': authorization
         }
       }
     )
-      .then(response => response.json())
-      .then(data => setFormData(data.user))
+
+    if (response.status == 200) {
+      const data = await response.json()
+
+      setFormData(data.user)
+    }
+  }
+
+  useEffect(() => {
+    if (!router.isReady) return;
+    const token = localStorage.getItem("token");
+    const authorization = `Bearer ${token}`
+    setAuthorization(authorization)
+
+    fetchUser(authorization)
   }, [router.isReady]);
 
   const handleChange = (event) => {
@@ -34,25 +46,25 @@ export default function UsersPage() {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const url = `http://localhost:3300/api/v1/user/${id}`;
+    try {
+      const url = `http://localhost:3300/api/v1/user/${id}`;
 
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $2b$10$JwKI.5.tRAwx5UgVqCuwiufDmkbZSUItIDxWe3YwQQk8.tAG3ULUm'
-      },
-      body: JSON.stringify(formData)
-    })
-      .then((response) => response.json())
-      .then(() => {
-        router.push(`/users/${formData.id}`)
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': authorization
+        },
+        body: JSON.stringify(formData)
       })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+
+      if (response.status == 200)
+        router.push(`/users/${formData.id}`)
+    } catch (err) {
+      console.log(err)
+    }
   };
 
   return (

@@ -7,9 +7,9 @@ import Header from '../../components/Header'
 
 
 export default function UsersPage() {
-  const [formData, setFormData] = useState({});
-
   const router = useRouter()
+
+  const [formData, setFormData] = useState({});
 
   const handleChange = (event) => {
     setFormData({
@@ -18,25 +18,31 @@ export default function UsersPage() {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const url = `http://localhost:3300/api/v1/user/create`;
+    try {
+      const url = `http://localhost:3300/api/v1/user/create`;
 
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $2b$10$JwKI.5.tRAwx5UgVqCuwiufDmkbZSUItIDxWe3YwQQk8.tAG3ULUm'
-      },
-      body: JSON.stringify(formData)
-    })
-      .then((response) => response.json())
-      .then(() => {
-        router.push(`/users`)
+      const token = localStorage.getItem("token");
+      const authorization = `Bearer ${token}`
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': authorization
+        },
+        body: JSON.stringify(formData)
       })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+
+      // TODO handle response.status != 200, for example, duplicate mail
+
+      if (response.status == 200)
+        router.push(`/users`)
+    } catch (err) {
+      console.log(err)
+    }
+
   };
 
   return (
