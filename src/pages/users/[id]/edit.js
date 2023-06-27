@@ -1,16 +1,14 @@
-import React, { useRouter } from 'next/router'
-import { useState, useEffect } from 'react'
-import { TextField, Button } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 
-import Grid from '@mui/material/Grid';
-import Header from '../../../components/Header'
+import Header from '../../../components/Header';
 
 export default function UsersPage() {
-  const router = useRouter()
-  const { id } = router.query
+  const router = useRouter();
+  const { id } = router.query;
 
   const [formData, setFormData] = useState({});
-  const [authorization, setAuthorization] = useState("")
+  const [authorization, setAuthorization] = useState('');
 
   const fetchUser = async (authorization) => {
     const response = await fetch(
@@ -21,22 +19,21 @@ export default function UsersPage() {
           'Authorization': authorization
         }
       }
-    )
+    );
 
-    if (response.status == 200) {
-      const data = await response.json()
-
-      setFormData(data.user)
+    if (response.status === 200) {
+      const data = await response.json();
+      setFormData(data.user);
     }
-  }
+  };
 
   useEffect(() => {
     if (!router.isReady) return;
-    const token = localStorage.getItem("token");
-    const authorization = `Bearer ${token}`
-    setAuthorization(authorization)
+    const token = localStorage.getItem('token');
+    const authorization = `Bearer ${token}`;
+    setAuthorization(authorization);
 
-    fetchUser(authorization)
+    fetchUser(authorization);
   }, [router.isReady]);
 
   const handleChange = (event) => {
@@ -58,91 +55,99 @@ export default function UsersPage() {
           'Authorization': authorization
         },
         body: JSON.stringify(formData)
-      })
+      });
 
-      if (response.status == 200)
-        router.push(`/users/${formData.id}`)
+      if (response.status === 200) {
+        router.push(`/users/${formData.id}`);
+      }
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
   };
 
   return (
     <>
       <Header />
-      <form onSubmit={handleSubmit}>
-        <Grid
-          container
-          direction="column"
-          justify="center"
-          alignItems="center"
-          sx={{ mt: 25 }}
-          spacing={2}
-        >
-          <Grid item xs={6}>
-            <TextField
-              name="name"
-              InputLabelProps={{ shrink: true }}
-              label="Nombre"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-          </Grid>
+      <br/>
+      <div class="row justify-content-md-center">
+        <div class="col-md-3">
+          <div class="card">
+            <div class="card-body">
+            <form onSubmit={handleSubmit}>
+                <div class="mb-3">
+                  <label class="form-label" htmlFor="name">Nombre</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    name="name"
+                    id="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
 
+                <div class="mb-3">
+                  <label class="form-label" htmlFor="lastName">Apellido</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    name="lastName"
+                    id="lastName"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
 
-          <Grid item xs={6}>
-            <TextField
-              name="lastName"
-              InputLabelProps={{ shrink: true }}
-              label="Apellido"
-              value={formData.lastName}
-              onChange={handleChange}
-              required
-            />
-          </Grid>
+                <div class="mb-3">
+                  <label class="form-label" htmlFor="rut">RUT</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    name="rut"
+                    id="rut"
+                    value={formData.rut}
+                    onChange={handleChange}
+                    required
+                    disabled
+                  />
+                </div>
 
-          <Grid item xs={6}>
-            <TextField
-              name="rut"
-              InputLabelProps={{ shrink: true }}
-              label="RUT"
-              value={formData.rut}
-              onChange={handleChange}
-              required
-            />
-          </Grid>
+                <div class="mb-3">
+                  <label class="form-label" htmlFor="email">Correo electrónico</label>
+                  <input
+                    class="form-control"
+                    type="email"
+                    name="email"
+                    id="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
 
-          <Grid item xs={6}>
-            <TextField
-              name="email"
-              InputLabelProps={{ shrink: true }}
-              label="Correo electrónico"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </Grid>
+                <div class="mb-3">
+                  <label class="form-label" htmlFor="phone">Teléfono</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    name="phone"
+                    id="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
 
-          <Grid item xs={6}>
-            <TextField
-              name="phone"
-              InputLabelProps={{ shrink: true }}
-              label="Teléfono"
-              value={formData.phone}
-              onChange={handleChange}
-              required
-            />
-          </Grid>
-
-          <Grid item xs={6}>
-            <Button type="submit" variant="contained" color="primary">
-              Enviar
-            </Button>
-          </Grid>
-
-        </Grid>
-      </form>
+                <div class="mb-3">
+                  <button class="btn btn-primary" type="submit">Enviar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
-  )
+  );
 }
