@@ -4,6 +4,10 @@ import Head from 'next/head';
 import Script from 'next/script';
 
 const Header = () => {
+  const logout = () => {
+    localStorage.clear();
+    window.location.href = "/";
+  }
   return (
     <div className="navbar-custom topnav-navbar topnav-navbar-dark">
     <Head>
@@ -70,10 +74,10 @@ const Header = () => {
               <div className="dropdown-divider"></div>
 
               <Link href="/logout" legacyBehavior>
-                <a className="dropdown-item notify-item">
+                <button className="dropdown-item notify-item" onClick={logout}>
                   <i className="mdi mdi-logout"></i>
                   <span>Cerrar sesión</span>
-                </a>
+                </button>
               </Link>
 
             </div>
