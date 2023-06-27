@@ -1,202 +1,146 @@
-// Import from Library
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
-import { Link } from 'next/link'
-import Swal from 'sweetalert2'
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 // Custom Components
-import Header from '../../components/Header'
-
-// MaterialUI
-import Button from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableRow from '@mui/material/TableRow';
-
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-
+import Header from '../../components/Header';
+import DeleteConfirmationModal from '../../components/DeleteConfirmationModal';
 
 export default function UserDetails() {
-  const router = useRouter()
-  const { id } = router.query
+  const router = useRouter();
+  const { id } = router.query;
 
   const [user, setUser] = useState({});
-  const [authorization, setAuthorization] = useState("")
+  const [authorization, setAuthorization] = useState("");
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
   const fetchData = async (authorization) => {
-    const response = await fetch(
-      `http://localhost:3300/api/v1/user/${id}`,
-      {
-        method: 'GET',
-        headers: {
-          'Authorization': authorization
-        }
-      }
-    )
-
-    const parsedResponse = await response.json()
-    setUser(parsedResponse.user)
-  }
-
-  const deleteRequest = async () => {
-    const response = await fetch(
-      `http://localhost:3300/api/v1/user/${id}`,
-      {
-        method: 'DELETE',
-        headers: {
-          'Authorization': authorization
-        }
-      }
-    )
-
-    const parsedResponse = await response.json()
-
-    if (parsedResponse.deleted) {
-      const successMessage = await Swal.fire(
-        'Eliminado!',
-        'Este usuario fue eliminado con éxito.',
-        'success'
-      )
-
-      if (successMessage.isConfirmed) {
-        router.push('/users')
-      }
-    } else {
-      const successMessage = await Swal.fire(
-        'Error',
-        'El usuario no se pudo eliminar correctamente.',
-        'error'
-      )
-      if (successMessage.isConfirmed) {
-        router.push('/users')
-      }
-    }
-  }
-
-  const deleteConfirmation = async () => {
     try {
-      const alert = await Swal.fire({
-        title: '¿Confirmas la eliminación de este usuario?',
-        text: "Esta operación no se puede revertir.",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, eliminarlo.',
-        cancelButtonText: 'Cancelarlo.'
-      })
+      const response = await fetch(
+        `http://localhost:3300/api/v1/user/${id}`,
+        {
+          method: 'GET',
+          headers: {
+            'Authorization': authorization
+          }
+        }
+      );
 
-      if (alert.isConfirmed) {
-        deleteRequest()
-      }
+      const parsedResponse = await response.json();
+      setUser(parsedResponse.user);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }
+  };
+
+  const deleteSuccessCallback = () => {
+    router.push('/users');
+  };
+
+  const deleteErrorCallback = () => {
+    router.push('/users');
+  };
 
   useEffect(() => {
     try {
       if (!router.isReady) return;
       const token = localStorage.getItem("token");
-      const authorization = `Bearer ${token}`
-      setAuthorization(authorization)
+      const authorization = `Bearer ${token}`;
+      setAuthorization(authorization);
 
-      fetchData(authorization)
+      fetchData(authorization);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
   }, [router.isReady]);
+
+  const openConfirmationModal = () => {
+    setShowConfirmationModal(true);
+  };
+
+  const closeConfirmationModal = () => {
+    setShowConfirmationModal(false);
+  };
 
   return (
     <>
       <Header />
-      <Box
-        sx={{ mt: 10, mx: 'auto', width: 700 }}
-        component={Paper}
-        variant={'outlined'}
-        align='center'
-      >
-        <h1>Datos de {user.name} {user.lastName}</h1>
+      <br />
+      <div className="row justify-content-md-center">
+        <div className="col-md-4">
+          <div className="card">
+            <div className="card-body text-center">
+              <div>
+                <h1>Datos de {user.name} {user.lastName}</h1>
 
-        <Box component={Paper} variant={'outlined'}>
-          <Box component={Paper} variant={'outlined'}>
-            <h2>Contacto</h2>
-          </Box>
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableBody>
-                <TableRow
-                  key={user.phone}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell align="center">Teléfono:</TableCell>
-                  <TableCell align="center">{user.phone}</TableCell>
-                </TableRow>
-                <TableRow
-                  key={user.email}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell align="center">Email:</TableCell>
-                  <TableCell align="center">{user.email}</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Box>
+                <div>
+                  <div>
+                    <h2>Contacto</h2>
+                  </div>
+                  <div>
+                    <table className="table table-bordered border-primary table-centered mb-0">
+                      <tbody>
+                        <tr>
+                          <td align="center">Teléfono:</td>
+                          <td align="center">{user.phone}</td>
+                        </tr>
+                        <tr>
+                          <td align="center">Email:</td>
+                          <td align="center">{user.email}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
 
-        <Box component={Paper} variant={'outlined'}>
-          <Box component={Paper} variant={'outlined'}>
-            <h2>Datos Personales</h2>
-          </Box>
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableBody>
-                <TableRow
-                  key={user.phone}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell align="center">RUT:</TableCell>
-                  <TableCell align="center">{user.rut}</TableCell>
-                </TableRow>
-                <TableRow
-                  key={user.email}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell align="center">ID Interno de Usuario:</TableCell>
-                  <TableCell align="center">{user.id}</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Box>
+                <div>
+                  <div>
+                    <h2>Datos Personales</h2>
+                  </div>
+                  <div>
+                    <table className="table table-bordered border-primary table-centered mb-0">
+                      <tbody>
+                        <tr>
+                          <td align="center">RUT:</td>
+                          <td align="center">{user.rut}</td>
+                        </tr>
+                        <tr>
+                          <td align="center">ID Interno de Usuario:</td>
+                          <td align="center">{user.id}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <br />
+                <div className="mx-auto">
+                  <button
+                    onClick={openConfirmationModal}
+                    className="btn btn-danger"
+                  >
+                    Eliminar Usuario
+                  </button>
 
-        <Box component={Paper} variant={'outlined'}>
-          <Button
-            sx={{ mr: 2, mt: 2, mb: 2 }}
-            color='error'
-            variant='contained'
-            onClick={() => deleteConfirmation()}
-            startIcon={<DeleteIcon />}>
-            Eliminar Usuario
-          </Button>
+                  <Link href={`/users/${user.id}/edit`}>
+                    <button className="btn btn-primary">Editar</button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-          <Button
-            sx={{ ml: 2, mt: 2, mb: 2 }}
-            variant="contained"
-            startIcon={<EditIcon />}
-            component={Link}
-            href={`/users/${user.id}/edit`}
-          >
-            Editar
-          </Button>
-        </Box>
-      </Box >
+      {/* Modal */}
+      {showConfirmationModal && (
+        <DeleteConfirmationModal
+          id={id}
+          authorization={authorization}
+          deleteSuccessCallback={deleteSuccessCallback}
+          deleteErrorCallback={deleteErrorCallback}
+          onClose={closeConfirmationModal}
+        />
+      )}
     </>
-  )
+  );
 }

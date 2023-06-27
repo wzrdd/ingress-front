@@ -1,14 +1,10 @@
-import React, { useRouter } from 'next/router'
-import { useState } from 'react'
-import { TextField, Button } from '@mui/material';
+import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 
-import Grid from '@mui/material/Grid';
-import Header from '../../components/Header'
-
+import Header from '../../components/Header';
 
 export default function UsersPage() {
-  const router = useRouter()
-
+  const router = useRouter();
   const [formData, setFormData] = useState({});
 
   const handleChange = (event) => {
@@ -24,7 +20,7 @@ export default function UsersPage() {
       const url = `http://localhost:3300/api/v1/user/create`;
 
       const token = localStorage.getItem("token");
-      const authorization = `Bearer ${token}`
+      const authorization = `Bearer ${token}`;
 
       const response = await fetch(url, {
         method: 'POST',
@@ -33,96 +29,110 @@ export default function UsersPage() {
           'Authorization': authorization
         },
         body: JSON.stringify(formData)
-      })
+      });
 
       // TODO handle response.status != 200, for example, duplicate mail
 
-      if (response.status == 200)
-        router.push(`/users`)
+      if (response.status === 200) {
+        router.push(`/users`);
+      }
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-
   };
 
   return (
     <>
       <Header />
-      <form onSubmit={handleSubmit}>
-        <Grid
-          container
-          direction="column"
-          justify="center"
-          alignItems="center"
-          sx={{ mt: 25 }}
-          spacing={2}
-        >
-          <Grid item xs={6}>
-            <TextField
-              name="name"
-              label="Nombre"
-              onChange={handleChange}
-              required
-            />
-          </Grid>
+      <br/>
+      <br/>
+      <br/>
+      <div class="row justify-content-md-center">
+        <div class="col-md-3">
+          <div class="card">
+            <div class="card-body">
+            <form onSubmit={handleSubmit}>
+            <div class="mb-3">
+              <label class="form-label" htmlFor="name">Nombre<span class="text-danger"> *</span></label>
+              <input
+                class="form-control"
+                type="text"
+                name="name"
+                id="name"
+                onChange={handleChange}
+                required
+              />
+            </div>
 
+            <div class="mb-3">
+              <label class="form-label" htmlFor="lastName">Apellido<span class="text-danger"> *</span></label>
+              <input
+                class="form-control"
+                type="text"
+                name="lastName"
+                id="lastName"
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-          <Grid item xs={6}>
-            <TextField
-              name="lastName"
-              label="Apellido"
-              onChange={handleChange}
-              required
-            />
-          </Grid>
+            <div class="mb-3">
+              <label class="form-label" htmlFor="password">Contraseña<span class="text-danger"> *</span></label>
+              <input
+                class="form-control"
+                type="password"
+                name="password"
+                id="password"
+                autoComplete="off"
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-          <Grid item xs={6}>
-            <TextField
-              name="password"
-              label="Contraseña"
-              type="password"
-              autoComplete="off"
-              onChange={handleChange}
-              required
-            />
-          </Grid>
+            <div class="mb-3">
+              <label class="form-label" htmlFor="rut">RUT<span class="text-danger"> *</span></label>
+              <input
+                class="form-control"
+                type="text"
+                name="rut"
+                id="rut"
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-          <Grid item xs={6}>
-            <TextField
-              name="rut"
-              label="RUT"
-              onChange={handleChange}
-              required
-            />
-          </Grid>
+            <div class="mb-3">
+              <label class="form-label" htmlFor="email">Correo electrónico<span class="text-danger"> *</span></label>
+              <input
+                class="form-control"
+                type="email"
+                name="email"
+                id="email"
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-          <Grid item xs={6}>
-            <TextField
-              name="email"
-              label="Correo electrónico"
-              onChange={handleChange}
-              required
-            />
-          </Grid>
+            <div class="mb-3">
+              <label class="form-label" htmlFor="phone">Teléfono<span class="text-danger"> *</span></label>
+              <input
+                class="form-control"
+                type="text"
+                name="phone"
+                id="phone"
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-          <Grid item xs={6}>
-            <TextField
-              name="phone"
-              InputLabelProps={{ shrink: true }}
-              label="Teléfono"
-              onChange={handleChange}
-              required
-            />
-          </Grid>
-
-          <Grid item xs={6}>
-            <Button type="submit" variant="contained" color="primary">
-              Enviar
-            </Button>
-          </Grid>
-
-        </Grid>
-      </form>
+            <div class="mb-3">
+              <button class="btn btn-primary" type="submit">Enviar</button>
+            </div>
+          </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
-  )
+  );
 }
