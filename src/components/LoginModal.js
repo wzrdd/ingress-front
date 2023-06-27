@@ -50,7 +50,7 @@ export default function LoginModal() {
       // TODO handle error
   
       // Recargar la página
-      window.location.reload();
+      window.location.replace("/");
     }
     else{
       alert('Email y password incorrectos.');
@@ -63,7 +63,6 @@ export default function LoginModal() {
       <Head>
         <link href="/hyper/dist/saas/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
         <link href="/hyper/dist/saas/assets/css/app.min.css" rel="stylesheet" type="text/css" id="light-style" />
-        <link href="/hyper/dist/saas/assets/css/app-dark.min.css" rel="stylesheet" type="text/css" id="dark-style" />
       </Head>
         <div className="col-md-auto">
           <button
