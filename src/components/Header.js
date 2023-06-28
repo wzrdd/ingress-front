@@ -61,14 +61,16 @@ const Header = () => {
                 <span>Mi cuenta</span>
               </a>
 
-              <a href="javascript:void(0);" className="dropdown-item notify-item">
-                <i className="mdi mdi-settings-outline"></i>
-                <span>Configuración</span>
+              <a href="/users" className="dropdown-item notify-item">
+                <span>Usuarios</span>
               </a>
 
-              <a href="javascript:void(0);" className="dropdown-item notify-item">
-                <i className="mdi mdi-lifebuoy"></i>
-                <span>Soporte</span>
+              <a href="/products" className="dropdown-item notify-item">
+                <span>Productos</span>
+              </a>
+
+              <a href="/filters" className="dropdown-item notify-item">
+                <span>Filtros</span>
               </a>
 
               <div className="dropdown-divider"></div>

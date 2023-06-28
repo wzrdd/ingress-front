@@ -55,11 +55,6 @@ function HomeForLoggedUser() {
                     <h1 class="col-md-auto">Home Page</h1>
                 </div>
                 <div class="row justify-content-md-center">
-                    <h2 class="col-md-auto">
-                        <Link href='/users'>Usuarios</Link>
-                    </h2>
-                </div>
-                <div class="row justify-content-md-center">
                     <div class="col-md-4">
                         <EmailForm/>
                     </div>

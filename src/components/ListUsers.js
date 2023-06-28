@@ -52,6 +52,34 @@ function UsersTable({ users }) {
   console.log(users);
   return (
     <>
+                <div class="row justify-content-md-center">
+                <div class="col-md-auto">
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="btn btn-primary">
+                                <Link class="text-dark" href="#">Cliente</Link>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="btn btn-warning">
+                                <Link class="text-dark" href="#">Logístico</Link>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="btn btn-danger">
+                                <Link class="text-dark" href="#">Admin</Link>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="btn btn-success">
+                                <Link class="text-dark" href="#">Operario</Link>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <br/>
     <div class="row justify-content-md-center">
       <div class="col-md-auto">
         <table class="table table-bordered border-primary table-striped table-centered mb-0">
