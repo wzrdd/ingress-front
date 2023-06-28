@@ -14,13 +14,9 @@ export default function LoginModal() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
+  const handleOpen = () => setOpen(true)
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleClose = () => setOpen(false);
 
   const handleLogin = () => {
     if (!email || !password) {
@@ -44,15 +40,14 @@ export default function LoginModal() {
     });
 
     const parsedResponse = await response.json();
-    if(parsedResponse.auth && parsedResponse.auth.token){
+    if (parsedResponse.auth && parsedResponse.auth.token) {
       localStorage.setItem('token', parsedResponse.auth.token);
       localStorage.setItem('userId', parsedResponse.auth.userId);
-      // TODO handle error
-  
+
       // Recargar la página
       window.location.replace("/");
     }
-    else{
+    else {
       alert('Email y password incorrectos.');
     }
   };
@@ -60,10 +55,10 @@ export default function LoginModal() {
   return (
     <>
       <div className="row justify-content-md-center">
-      <Head>
-        <link href="/hyper/dist/saas/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-        <link href="/hyper/dist/saas/assets/css/app.min.css" rel="stylesheet" type="text/css" id="light-style" />
-      </Head>
+        <Head>
+          <link href="/hyper/dist/saas/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+          <link href="/hyper/dist/saas/assets/css/app.min.css" rel="stylesheet" type="text/css" id="light-style" />
+        </Head>
         <div className="col-md-auto">
           <button
             className=' btn btn-danger'
@@ -79,11 +74,11 @@ export default function LoginModal() {
           <div className="card">
             <div className="card-header pt-4 pb-4 text-center bg-primary">
               <button className='btn btn-primary' onClick={handleClose}>&times;</button>
-                <span><h2 className='text-dark'>Ingress</h2></span>
+              <span><h2 className='text-dark'>Ingress</h2></span>
             </div>
 
             <div className="card-body p-4">
-                                
+
               <div className="text-center w-75 m-auto">
                 <h4 className="text-dark-50 text-center pb-0 fw-bold">Sign In</h4>
                 <p className="text-muted mb-4">Enter your email address and password to access admin panel.</p>
@@ -93,29 +88,29 @@ export default function LoginModal() {
 
                 <div className="mb-3">
                   <label for="email" className="form-label">Email</label>
-                  <input className="form-control" type="text" id="email" required="" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)}/>
+                  <input className="form-control" type="text" id="email" required="" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
                 </div>
 
                 <div className="mb-3">
-                    <label for="password" className="form-label">Password</label>
-                    <div className="input-group input-group-merge">
-                    <input type="password" id="password" className="form-control" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                  <label for="password" className="form-label">Password</label>
+                  <div className="input-group input-group-merge">
+                    <input type="password" id="password" className="form-control" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
                     <div className="input-group-text" data-password="false">
                       <span className="password-eye"></span>
                     </div>
+                  </div>
                 </div>
-               </div>
 
-              <div className="mb-3 mb-0 text-center">
-                <button className="btn btn-primary" onClick={handleLogin}> Entrar </button>
-              </div>
-
-                  </form>
+                <div className="mb-3 mb-0 text-center">
+                  <button className="btn btn-primary" onClick={handleLogin}> Entrar </button>
                 </div>
-              </div>
-              <Script src="/hyper/dist/saas/assets/js/jquery.min.js"></Script>
-              <Script src="/hyper/dist/saas/assets/js/vendor.min.js"></Script>
-              <Script src="/hyper/dist/saas/assets/js/app.min.js"></Script>
+
+              </form>
+            </div>
+          </div>
+          <Script src="/hyper/dist/saas/assets/js/jquery.min.js"></Script>
+          <Script src="/hyper/dist/saas/assets/js/vendor.min.js"></Script>
+          <Script src="/hyper/dist/saas/assets/js/app.min.js"></Script>
         </div>
       )}
     </>
