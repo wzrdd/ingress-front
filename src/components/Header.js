@@ -3,11 +3,16 @@ import Link from 'next/link';
 import Head from 'next/head';
 import Script from 'next/script';
 
+import { useRouter } from 'next/router';
+
 const Header = () => {
+  const router = useRouter();
+
   const logout = () => {
     localStorage.clear();
-    window.location.href = "/";
+    router.reload(window.location.pathname)
   }
+
   return (
     <div className="navbar-custom topnav-navbar topnav-navbar-dark">
       <Head>
@@ -75,7 +80,7 @@ const Header = () => {
 
               <div className="dropdown-divider"></div>
 
-              <Link href="/logout" legacyBehavior>
+              <Link href="/" legacyBehavior>
                 <button className="dropdown-item notify-item" onClick={logout}>
                   <i className="mdi mdi-logout"></i>
                   <span>Cerrar sesión</span>

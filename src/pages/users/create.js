@@ -115,14 +115,19 @@ export default function UsersPage() {
 
                 <div class="mb-3">
                   <label class="form-label" htmlFor="phone">Teléfono<span class="text-danger"> *</span></label>
-                  <input
+                  <select
                     class="form-control"
-                    type="text"
-                    name="phone"
-                    id="phone"
+                    name="role"
+                    id="role"
+                    type='text'
                     onChange={handleChange}
                     required
-                  />
+                  >
+                    <option value="Admin">Admin</option>
+                    <option value="Operario">Operario</option>
+                    <option value="Logistico">Logistico</option>
+                    <option value="Cliente">Cliente</option>
+                  </select>
                 </div>
 
                 <div class="mb-3">
