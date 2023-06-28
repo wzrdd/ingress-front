@@ -33,7 +33,7 @@ export default function ProductsPage() {
   };
 
   useEffect(() => {
-    fetchArrivals(30);
+    fetchArrivals(1);
   }, []);
 
   return (

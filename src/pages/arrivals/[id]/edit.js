@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-import Header from '../../components/Header';
+import Header from '../../../components/Header';
 
 export default function UsersPage() {
   const router = useRouter();
@@ -12,7 +12,7 @@ export default function UsersPage() {
 
   const fetchProduct = async (authorization) => {
     const response = await fetch(
-      `http://localhost:3300/api/v1/arrival/create`,
+      `http://localhost:3300/api/v1/arrival/${id}`,
       {
         method: 'GET',
         headers: {
@@ -23,7 +23,11 @@ export default function UsersPage() {
 
     if (response.status === 200) {
       const data = await response.json();
-      setFormData(data.product);
+      const j = JSON.parse(data.arrival.aditionalNotes);
+      Object.entries(j).forEach(([key, value]) => {
+        setRows(rows => [...rows, { data: key, description: value }]);
+      });
+      setFormData(data.arrival);
     }
   };
 
@@ -68,7 +72,7 @@ export default function UsersPage() {
       dataToSend[row.data] = row.description;
     });
     try {
-      const url = `http://localhost:3300/api/v1/arrival/create`;
+      const url = `http://localhost:3300/api/v1/arrival/${id}`;
 
       const token = localStorage.getItem("token");
       const authorization = `Bearer ${token}`;
@@ -88,7 +92,7 @@ export default function UsersPage() {
       // TODO handle response.status != 200, for example, duplicate mail
 
       if (response.status === 200) {
-        router.push(`/products`);
+        router.push(`/arrivals`);
       }
     } catch (err) {
       console.log(err);
@@ -104,15 +108,16 @@ export default function UsersPage() {
         <div class="col-md-3">
           <div class="card">
             <div class="card-body">
-              <h1>Crear Arrival</h1>
+              <h1>Modificar Arrival</h1>
               <form onSubmit={handleSubmit}>
                 <div class="mb-3">
-                  <label class="form-label" htmlFor="entryDate">Día de Entrada<span class="text-danger"> *</span></label>
+                  <label class="form-label" htmlFor="entryDate">Día de entrada<span class="text-danger"> *</span></label>
                   <input
                     class="form-control"
-                    type="datetime-local"
+                    type="text"
                     name="entryDate"
                     id="entryDate"
+                    value={formData.entryDate}
                     onChange={handleChange}
                     required
                   />
@@ -125,30 +130,31 @@ export default function UsersPage() {
                     type="text"
                     name="supplierId"
                     id="supplierId"
+                    value={formData.supplierId}
                     onChange={handleChange}
                     required
                   />
                 </div>
 
                 <div class="mb-3">
-                  <label class="form-label" htmlFor="productId">Id de Producto<span class="text-danger"> *</span></label>
+                  <label class="form-label" htmlFor="productId">Id de producto<span class="text-danger"> *</span></label>
                   <input
                     class="form-control"
                     type="text"
                     name="productId"
                     id="productId"
+                    value={formData.productId}
                     autoComplete="off"
                     onChange={handleChange}
                     required
                   />
                 </div>
-
                 <table class="table table-bordered border-primary table-striped table-centered mb-0">
                   <thead>
                     <tr>
-                      <th>Nota</th>
+                      <th>Dato</th>
                       <th>Descripción</th>
-                      <th>Acción</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -158,13 +164,15 @@ export default function UsersPage() {
                           <input
                             class="form-control"
                             type="text"
-                            onChange={(e) => handleInputChange(index, 'note', e.target.value)}
+                            value={row.data}
+                            onChange={(e) => handleInputChange(index, 'data', e.target.value)}
                           />
                         </td>
                         <td>
                           <input
                             class="form-control"
                             type="text"
+                            value={row.description}
                             onChange={(e) => handleInputChange(index, 'description', e.target.value)}
                           />
                         </td>
