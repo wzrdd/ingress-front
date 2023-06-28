@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-import Header from '../../components/Header';
+import Header from '../../../components/Header';
 
 export default function UsersPage() {
   const router = useRouter();
@@ -12,7 +12,7 @@ export default function UsersPage() {
 
   const fetchProduct = async (authorization) => {
     const response = await fetch(
-      `http://localhost:3300/api/v1/product/create`,
+      `http://localhost:3300/api/v1/product/${id}`,
       {
         method: 'GET',
         headers: {
@@ -23,6 +23,10 @@ export default function UsersPage() {
 
     if (response.status === 200) {
       const data = await response.json();
+      const j = JSON.parse(data.product.description);
+      Object.entries(j).forEach(([key, value]) => {
+        setRows(rows => [...rows, { data: key, description: value }]);
+      });
       setFormData(data.product);
     }
   };
@@ -68,7 +72,7 @@ export default function UsersPage() {
       dataToSend[row.data] = row.description;
     });
     try {
-      const url = `http://localhost:3300/api/v1/product/create`;
+      const url = `http://localhost:3300/api/v1/product/${id}`;
 
       const token = localStorage.getItem("token");
       const authorization = `Bearer ${token}`;

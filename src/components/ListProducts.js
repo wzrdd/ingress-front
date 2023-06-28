@@ -69,7 +69,11 @@ function ProductsTable({ products }) {
             <tbody>
               {products.map((product) => (
                 <tr key={product.id}>
-                  <td>{product.name}</td>
+                  <td>
+                    <Link href={`/products/${product.id}`}>
+                        {product.name}
+                    </Link>
+                  </td>
                   <td>{product.quantityUnit}</td>
                   <td>{product.quantityValue}</td>
                 </tr>
