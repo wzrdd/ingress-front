@@ -74,7 +74,7 @@ const Header = () => {
                 <span>Productos</span>
               </a>
 
-              <a href="/filters" className="dropdown-item notify-item">
+              <a href="/arrivals" className="dropdown-item notify-item">
                 <span>Filtros</span>
               </a>
 

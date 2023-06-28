@@ -3,12 +3,13 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
-
 export default function ListUsers() {
   const router = useRouter();
 
   const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const [usersFetched, setUsersFetched] = useState(false);
+  const [filter, setFilter] = useState('');
 
   const searchParams = useSearchParams();
   const role = searchParams.get('rol')
@@ -49,26 +50,24 @@ export default function ListUsers() {
     fetchUsers(authorization);
   }, [router.query]);
 
-  return (
-    <>
-      {usersFetched ? <UsersTable users={users} /> : <ErrorMessage />}
-    </>
-  );
-}
+  useEffect(() => {
+    filterUsers();
+  }, [users, filter]);
 
-function ErrorMessage() {
-  return (
-    <>
-      <h1>Cargando...</h1>
-      <h2>
-        <Link href="/">Regresar a la página de inicio</Link>
-      </h2>
-    </>
-  );
-}
+  const filterUsers = () => {
+    if (filter === 'Cliente') {
+      setFilteredUsers(users.filter(user => user.role === 'Cliente'));
+    } else if (filter === 'Logístico') {
+      setFilteredUsers(users.filter(user => user.role === 'Logístico'));
+    } else if (filter === 'Admin') {
+      setFilteredUsers(users.filter(user => user.role === 'Admin'));
+    } else if (filter === 'Operario') {
+      setFilteredUsers(users.filter(user => user.role === 'Operario'));
+    } else {
+      setFilteredUsers(users);
+    }
+  };
 
-function UsersTable({ users }) {
-  console.log(users);
   return (
     <>
       <div class="row justify-content-md-center">
@@ -115,7 +114,8 @@ function UsersTable({ users }) {
               </tr>
             </thead>
             <tbody>
-              {users.map((user) => (
+              {filteredUsers.map((user) => (
+
                 <tr key={user.id}>
                   <td>{user.id}</td>
                   <td>
@@ -128,7 +128,8 @@ function UsersTable({ users }) {
             </tbody>
           </table>
 
-          <br />
+          <br/>
+
           <div class="btn btn-primary">
             <Link class="text-dark" href="/users/create">Crear Usuario</Link>
           </div>
