@@ -59,8 +59,11 @@ function HomeForLoggedUser() {
                 </h2>
 
                 <div class="row justify-content-md-center">
-                    <div class="col-md-4 pt-3">
-                        <EmailForm />
+                    <h1 class="col-md-auto">Home Page</h1>
+                </div>
+                <div class="row justify-content-md-center">
+                    <div class="col-md-4">
+                        <EmailForm/>
                     </div>
                 </div>
             </div>
