@@ -106,7 +106,7 @@ export default function UsersPage() {
         <div class="col-md-3">
           <div class="card">
             <div class="card-body">
-              <h1>Modificar Producto</h1>
+              <h1>Crear Producto</h1>
               <form onSubmit={handleSubmit}>
                 <div class="mb-3">
                   <label class="form-label" htmlFor="name">Nombre<span class="text-danger"> *</span></label>
@@ -115,7 +115,6 @@ export default function UsersPage() {
                     type="text"
                     name="name"
                     id="name"
-                    value={formData.name}
                     onChange={handleChange}
                     required
                   />
@@ -128,7 +127,6 @@ export default function UsersPage() {
                     type="text"
                     name="quantityUnit"
                     id="quantityUnit"
-                    value={formData.quantityUnit}
                     onChange={handleChange}
                     required
                   />
@@ -141,7 +139,19 @@ export default function UsersPage() {
                     type="number"
                     name="quantityValue"
                     id="quantityValue"
-                    value={formData.quantityValue}
+                    autoComplete="off"
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label" htmlFor="productType">Tipo de Producto<span class="text-danger"> *</span></label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    name="productType"
+                    id="productType"
                     autoComplete="off"
                     onChange={handleChange}
                     required
