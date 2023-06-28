@@ -150,6 +150,20 @@ export default function UsersPage() {
                   />
                 </div>
 
+                <div class="mb-3">
+                  <label class="form-label" htmlFor="productType">Tipo de Producto<span class="text-danger"> *</span></label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    name="productType"
+                    id="productType"
+                    value={formData.productType}
+                    autoComplete="off"
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+
                 <table class="table table-bordered border-primary table-striped table-centered mb-0">
                   <thead>
                     <tr>

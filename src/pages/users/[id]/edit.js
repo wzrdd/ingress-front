@@ -99,7 +99,21 @@ export default function UsersPage() {
                     required
                   />
                 </div>
-
+                <div class="mb-3">
+                  <label class="form-label" htmlFor="role">Rol<span class="text-danger"> *</span></label>
+                  <select
+                    class="form-control"
+                    name="role"
+                    id="role"
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="" disabled selected >Seleccione un rol</option>
+                    <option value="Logistico">Logistico</option>
+                    <option value="Operario">Operario</option>
+                    <option value="Cliente">Cliente</option>
+                  </select>
+                </div>       
                 <div class="mb-3">
                   <label class="form-label" htmlFor="rut">RUT</label>
                   <input

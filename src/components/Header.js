@@ -10,10 +10,10 @@ const Header = () => {
   }
   return (
     <div className="navbar-custom topnav-navbar topnav-navbar-dark">
-    <Head>
+      <Head>
         <link href="/hyper/dist/saas/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
         <link href="/hyper/dist/saas/assets/css/app.min.css" rel="stylesheet" type="text/css" id="light-style" />
-    </Head>
+      </Head>
       <div className="container-fluid">
         <Link href="/" legacyBehavior>
           <a className="topnav-logo">
@@ -41,7 +41,7 @@ const Header = () => {
             </a>
             <div className="dropdown-menu dropdown-menu-animated dropdown-lg p-0">
               <form className="p-3">
-                <input type="text" className="form-control" placeholder="Search ..." aria-label="Recipient's username" />
+                <input type="text" className="form-control" placeholder="Search..." aria-label="Recipient's username" />
               </form>
             </div>
           </li>
@@ -75,7 +75,7 @@ const Header = () => {
 
               <div className="dropdown-divider"></div>
 
-              <Link href="/logout" legacyBehavior>
+              <Link href="#" legacyBehavior>
                 <button className="dropdown-item notify-item" onClick={logout}>
                   <i className="mdi mdi-logout"></i>
                   <span>Cerrar sesión</span>
