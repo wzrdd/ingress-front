@@ -75,7 +75,7 @@ const Header = () => {
 
               <div className="dropdown-divider"></div>
 
-              <Link href="/logout" legacyBehavior>
+              <Link href="#" legacyBehavior>
                 <button className="dropdown-item notify-item" onClick={logout}>
                   <i className="mdi mdi-logout"></i>
                   <span>Cerrar sesión</span>

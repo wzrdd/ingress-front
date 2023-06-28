@@ -71,7 +71,7 @@ export default function UserDetails() {
           <div className="card">
             <div className="card-body text-center">
               <div>
-                <h1>Datos de {user.name} {user.lastName}</h1>
+              <h1>Datos de {user.name} {user.lastName}</h1>
 
                 <div>
                   <div>
@@ -100,6 +100,10 @@ export default function UserDetails() {
                   <div>
                     <table className="table table-bordered border-primary table-centered mb-0">
                       <tbody>
+                      <tr>
+                          <td align="center">Rol:</td>
+                          <td align="center">{user.role}</td>
+                        </tr>
                         <tr>
                           <td align="center">RUT:</td>
                           <td align="center">{user.rut}</td>

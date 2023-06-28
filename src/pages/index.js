@@ -50,13 +50,7 @@ export default function Home() {
 function HomeForLoggedUser() {
     return (
         <>
-            <div class="row justify-content-md-center">
-                <h1 class="col-md-auto">Home Page</h1>
-            </div>
-            <div class="row justify-content-md-center">
-                <h2 class="col-md-auto">
-                    <Link href='/users'>Usuarios</Link>
-                </h2>
+
 
                 <div class="row justify-content-md-center">
                     <h1 class="col-md-auto">Home Page</h1>
@@ -66,7 +60,6 @@ function HomeForLoggedUser() {
                         <EmailForm/>
                     </div>
                 </div>
-            </div>
         </>
     )
 }
