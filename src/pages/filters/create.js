@@ -12,7 +12,7 @@ export default function UsersPage() {
 
   const fetchProduct = async (authorization) => {
     const response = await fetch(
-      `http://localhost:3300/api/v1/product/create`,
+      `http://localhost:3300/api/v1/arrival/create`,
       {
         method: 'GET',
         headers: {
@@ -68,7 +68,7 @@ export default function UsersPage() {
       dataToSend[row.data] = row.description;
     });
     try {
-      const url = `http://localhost:3300/api/v1/product/create`;
+      const url = `http://localhost:3300/api/v1/arrival/create`;
 
       const token = localStorage.getItem("token");
       const authorization = `Bearer ${token}`;
@@ -104,52 +104,39 @@ export default function UsersPage() {
         <div class="col-md-3">
           <div class="card">
             <div class="card-body">
-              <h1>Crear Producto</h1>
+              <h1>Crear Arrival</h1>
               <form onSubmit={handleSubmit}>
                 <div class="mb-3">
-                  <label class="form-label" htmlFor="name">Nombre<span class="text-danger"> *</span></label>
+                  <label class="form-label" htmlFor="entryDate">Día de Entrada<span class="text-danger"> *</span></label>
                   <input
                     class="form-control"
-                    type="text"
-                    name="name"
-                    id="name"
+                    type="datetime-local"
+                    name="entryDate"
+                    id="entryDate"
                     onChange={handleChange}
                     required
                   />
                 </div>
 
                 <div class="mb-3">
-                  <label class="form-label" htmlFor="quantityUnit">Unidad de Medida<span class="text-danger"> *</span></label>
+                  <label class="form-label" htmlFor="supplierId">Supplier Id<span class="text-danger"> *</span></label>
                   <input
                     class="form-control"
                     type="text"
-                    name="quantityUnit"
-                    id="quantityUnit"
+                    name="supplierId"
+                    id="supplierId"
                     onChange={handleChange}
                     required
                   />
                 </div>
 
                 <div class="mb-3">
-                  <label class="form-label" htmlFor="quantityValue">Cantidad<span class="text-danger"> *</span></label>
-                  <input
-                    class="form-control"
-                    type="number"
-                    name="quantityValue"
-                    id="quantityValue"
-                    autoComplete="off"
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-
-                <div class="mb-3">
-                  <label class="form-label" htmlFor="productType">Tipo de Producto<span class="text-danger"> *</span></label>
+                  <label class="form-label" htmlFor="productId">Id de Producto<span class="text-danger"> *</span></label>
                   <input
                     class="form-control"
                     type="text"
-                    name="productType"
-                    id="productType"
+                    name="productId"
+                    id="productId"
                     autoComplete="off"
                     onChange={handleChange}
                     required
@@ -159,9 +146,9 @@ export default function UsersPage() {
                 <table class="table table-bordered border-primary table-striped table-centered mb-0">
                   <thead>
                     <tr>
-                      <th>Dato</th>
+                      <th>Nota</th>
                       <th>Descripción</th>
-                      <th></th>
+                      <th>Acción</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -171,15 +158,13 @@ export default function UsersPage() {
                           <input
                             class="form-control"
                             type="text"
-                            value={row.data}
-                            onChange={(e) => handleInputChange(index, 'data', e.target.value)}
+                            onChange={(e) => handleInputChange(index, 'note', e.target.value)}
                           />
                         </td>
                         <td>
                           <input
                             class="form-control"
                             type="text"
-                            value={row.description}
                             onChange={(e) => handleInputChange(index, 'description', e.target.value)}
                           />
                         </td>
