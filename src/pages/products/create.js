@@ -73,6 +73,8 @@ export default function UsersPage() {
       const token = localStorage.getItem("token");
       const authorization = `Bearer ${token}`;
 
+      console.log(formData)
+
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -98,8 +100,8 @@ export default function UsersPage() {
   return (
     <>
       <Header />
-      <br/>
-      <br/>
+      <br />
+      <br />
       <div class="row justify-content-md-center">
         <div class="col-md-3">
           <div class="card">
@@ -156,6 +158,26 @@ export default function UsersPage() {
                   />
                 </div>
 
+                <div class="mb-3">
+                  <label class="form-label" htmlFor="productType">Tipo de Producto<span class="text-danger"> *</span></label>
+                  <select
+                    class="form-control"
+                    type="text"
+                    name="productType"
+                    id="productType"
+                    value={formData.productType}
+                    autoComplete="off"
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value=""></option>
+                    <option value="Materia Prima">Materia Prima</option>
+                    <option value="Consumible">Consumible</option>
+                    <option value="Producto Semi-Terminado">Producto Semi-Terminado</option>
+                    <option value="Produco Terminado">Producto Terminado</option>
+                  </select>
+                </div>
+
                 <table class="table table-bordered border-primary table-striped table-centered mb-0">
                   <thead>
                     <tr>
@@ -191,10 +213,10 @@ export default function UsersPage() {
                   </tbody>
                 </table>
 
-                <br/>
+                <br />
                 <button class="btn btn-warning" type="button" onClick={addNewRow}>Agregar nueva fila</button>
-                <br/>
-                <br/>
+                <br />
+                <br />
 
                 <div class="mb-3">
                   <button class="btn btn-primary" type="submit">Enviar</button>
